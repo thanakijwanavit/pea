@@ -1,7 +1,6 @@
 import boto3
 from parallel_sync import wget
-import sys
-import os
+import sys, re, os
 
 KEY = os.getenv('KEY')
 PASS = os.getenv('PASS')
@@ -9,13 +8,13 @@ PASS = os.getenv('PASS')
 
 s3 = boto3.client(
     's3',
-    aws_access_key_id=KEY
+    aws_access_key_id=KEY,
     aws_secret_access_key=PASS
 )
 bucket = 'colab-pea'
 filename = './10MB'
 path = 'test.zip'
-s3.upload_file(filename, bucket, path)
+#s3.upload_file(filename, bucket, path)
 
 urls = ['https://newsmaze.net/storage/new_proof_disk/Pea/p.log',
         'https://newsmaze.net/storage/new_proof_disk/Pea/Manager1.zip',
