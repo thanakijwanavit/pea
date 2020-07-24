@@ -1,2 +1,3 @@
 parallel_sync
+iregex
 boto3
