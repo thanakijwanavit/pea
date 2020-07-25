@@ -16,22 +16,7 @@ filename = './10MB'
 path = 'test.zip'
 #s3.upload_file(filename, bucket, path)
 
-urls = ['https://newsmaze.net/storage/new_proof_disk/Pea/p.log',
-        'https://newsmaze.net/storage/new_proof_disk/Pea/Manager1.zip',
-        'https://newsmaze.net/storage/new_proof_disk/Pea/Manager2.zip',
-        'https://newsmaze.net/storage/new_proof_disk/Pea/Main6.zip',
-        'https://newsmaze.net/storage/new_proof_disk/Pea/00.7z',
-        'https://newsmaze.net/storage/new_proof_disk/Pea/01.7z',
-        'https://newsmaze.net/storage/new_proof_disk/Pea/02.7z',
-        'https://newsmaze.net/storage/new_proof_disk/Pea/03.7z',
-        'https://newsmaze.net/storage/new_proof_disk/Pea/04.7z',
-        'https://newsmaze.net/storage/new_proof_disk/Pea/05.7z',
-        'https://newsmaze.net/storage/new_proof_disk/Pea/2.7z',
-        'https://newsmaze.net/storage/new_proof_disk/Pea/3.7z',
-        'https://newsmaze.net/storage/new_proof_disk/Pea/4.7z',
-        'https://newsmaze.net/storage/new_proof_disk/Pea/5.7z',
-        'https://newsmaze.net/storage/new_proof_disk/Pea/CAN.7z',
-        'https://newsmaze.net/storage/new_proof_disk/Pea/CovidDocs.7z',
+urls = [
         'https://newsmaze.net/storage/new_proof_disk/Pea/Director1.7z',
         'https://newsmaze.net/storage/new_proof_disk/Pea/Director2.7z',
         'https://newsmaze.net/storage/new_proof_disk/Pea/Director3.7z',
@@ -42,13 +27,17 @@ urls = ['https://newsmaze.net/storage/new_proof_disk/Pea/p.log',
         ]
 # wget.download('/tmp', urls)
 # or a single file:
+wget.download(os.path.join(os.getcwd(),'tmp'), urls, tries=10)
+
 for url in urls:
   try:
     filename = re.search('\w*\.\w*$',url).group(0)
-    path = f'/tmp/{filename}'
-    wget.download('/tmp', url, filenames=filename)
+    path = os.path.join(os.getcwd(),'tmp', filename)
+    #path = f'./tmp/{filename}'
+    #wget.download(os.path.join(os.getcwd(),'tmp'), url, filenames=filename)
+    print(f'uploading {filename} to s3')
     s3.upload_file(path , bucket, filename)
-    os.remove(path)
+    #os.remove(path)
 
 
 
